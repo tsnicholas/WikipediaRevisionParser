@@ -10,6 +10,6 @@ public class wikiPage {
 
     // TODO: create this class to return the correct revision URL of the name inputted
     public URL findRevisionURL(String wikipediaName) throws MalformedURLException {
-        return null;
+        throw new MalformedURLException();
     }
 }
