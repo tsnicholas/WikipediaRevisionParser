@@ -50,6 +50,7 @@ public class MainWindow extends Application {
         }
         catch(MalformedURLException malformedURLException) {
             ErrorWindow URLError = new ErrorWindow("Wikipedia page doesn't exist");
+            URLError.displayError();
         }
     }
 }
