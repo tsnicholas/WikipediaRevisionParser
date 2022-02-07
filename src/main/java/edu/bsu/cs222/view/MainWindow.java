@@ -27,8 +27,6 @@ public class MainWindow extends Application {
 
     private Parent createUI() {
         button.setOnAction((event) -> {
-             button.setDisable(true);
-             textField.setDisable(true);
              getInput();
         });
 
