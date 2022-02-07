@@ -22,7 +22,6 @@ public class MainWindow extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setScene(new Scene(createUI()));
-
         primaryStage.show();
     }
 
