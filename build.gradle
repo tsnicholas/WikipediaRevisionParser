@@ -6,11 +6,11 @@ plugins {
 
 javafx {
     version = "17"
-    modules = [ 'javafx.controls' ]
+    modules = [ 'javafx.controls']
 }
 
 application {
-    mainClassName = "edu.bsu.cs222.UI"
+    mainClassName = "edu.bsu.cs222.MainWindow"
 }
 
 group 'org.example'
