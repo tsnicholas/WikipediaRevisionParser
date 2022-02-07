@@ -10,7 +10,7 @@ javafx {
 }
 
 application {
-    mainClassName = "edu.bsu.cs222.MainWindow"
+    mainClassName = "edu.bsu.cs222.view.MainWindow"
 }
 
 group 'org.example'
