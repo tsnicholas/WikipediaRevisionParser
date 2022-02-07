@@ -25,12 +25,11 @@ public class MainWindow extends Application {
         primaryStage.show();
     }
 
-    // TODO: Add error message when there's no wikipedia page with the name
     private Parent createUI() {
         button.setOnAction((event) -> {
              button.setDisable(true);
              textField.setDisable(true);
-             obtainInputURL();
+             getInput();
         });
 
         VBox vbox = new VBox();
@@ -43,12 +42,12 @@ public class MainWindow extends Application {
         return vbox;
     }
 
-    private void obtainInputURL() {
+    private void getInput() {
         try {
             String wikipediaName = textField.getText();
             revision.findRevisionURL(wikipediaName);
         }
-        catch(MalformedURLException malformedURLException) {
+        catch(MalformedURLException nonExistentWikipediaPage) {
             ErrorWindow URLError = new ErrorWindow("Wikipedia page doesn't exist");
             URLError.displayError();
         }
