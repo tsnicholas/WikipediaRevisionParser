@@ -1,5 +1,6 @@
-package edu.bsu.cs222;
+package edu.bsu.cs222.view;
 
+import edu.bsu.cs222.model.Wikipage;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,7 +26,9 @@ public class MainWindow extends Application {
     private Parent createUI() {
         button.setOnAction((event) -> {
             String wikipediaName = textField.getText();
-            label.setText(wikipediaName);
+
+            Wikipage revision = new Wikipage();
+            revision.findRevisionURL(wikipediaName);
         });
 
         VBox vbox = new VBox();
