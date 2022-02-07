@@ -16,7 +16,7 @@ public class MainWindow extends Application {
 
     private final TextField textField = new TextField();
     private final Button button = new Button("Search");
-    private final Label label = new Label();
+    private final Label label = new Label("Enter a Wikipedia Page");
     private final wikiPage revision = new wikiPage();
 
     @Override
@@ -34,21 +34,22 @@ public class MainWindow extends Application {
 
         VBox vbox = new VBox();
         vbox.getChildren().addAll(
+                label,
                 textField,
-                button,
-                label
+                button
         );
 
         return vbox;
     }
 
     private void getInput() {
+        String wikipediaName = textField.getText();
+
         try {
-            String wikipediaName = textField.getText();
             revision.findRevisionURL(wikipediaName);
         }
         catch(MalformedURLException nonExistentWikipediaPage) {
-            ErrorWindow URLError = new ErrorWindow("Wikipedia page doesn't exist");
+            ErrorWindow URLError = new ErrorWindow(wikipediaName + " doesn't exist");
             URLError.displayError();
         }
     }
