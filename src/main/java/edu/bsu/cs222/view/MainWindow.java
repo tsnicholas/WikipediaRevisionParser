@@ -11,8 +11,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.MalformedURLException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class MainWindow extends Application {
 
@@ -21,11 +19,10 @@ public class MainWindow extends Application {
     private final Label label = new Label();
     private final wikiPage revision = new wikiPage();
 
-    private final Executor executor = Executors.newSingleThreadExecutor();
-
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setScene(new Scene(createUI()));
+
         primaryStage.show();
     }
 
@@ -34,10 +31,7 @@ public class MainWindow extends Application {
         button.setOnAction((event) -> {
              button.setDisable(true);
              textField.setDisable(true);
-
-            executor.execute(() -> {
-                obtainInputURL();
-            });
+             obtainInputURL();
         });
 
         VBox vbox = new VBox();
@@ -56,7 +50,7 @@ public class MainWindow extends Application {
             revision.findRevisionURL(wikipediaName);
         }
         catch(MalformedURLException malformedURLException) {
-            URLErrorWindow error = new URLErrorWindow();
+            ErrorWindow URLError = new ErrorWindow("Wikipedia page doesn't exist");
         }
     }
 }
