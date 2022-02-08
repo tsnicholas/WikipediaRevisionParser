@@ -52,7 +52,7 @@ public class MainWindow extends Application {
         try {
             revision.findRevisionURL(wikipediaName);
         }
-        catch(MalformedURLException nonExistentWikipediaPage) {
+        catch(Exception nonExistentWikipediaPage) {
             ErrorWindow URLError = new ErrorWindow(wikipediaName + " doesn't exist");
             URLError.displayError();
         }
