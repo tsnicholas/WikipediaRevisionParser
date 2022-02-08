@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.net.MalformedURLException;
@@ -22,13 +23,15 @@ public class MainWindow extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setScene(new Scene(createUI()));
+        primaryStage.setTitle("Wikipedia Revision Getter");
         primaryStage.setWidth(500.0);
         primaryStage.show();
     }
 
     private Parent createUI() {
+        label.setFont(Font.font("Comic Sans", 14));
         button.setOnAction((event) -> {
-             getInput();
+            getInput();
         });
 
         VBox vbox = new VBox();
