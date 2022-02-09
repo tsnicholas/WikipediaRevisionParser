@@ -16,22 +16,25 @@ public class wikiPage {
         wikiURL = new URL("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" + wikiName + "&rvprop=timestamp|user&rvlimit=4&redirects");
     }
 
+    public void connect() throws IOException {
+        connection = wikiURL.openConnection();
+        connection.setRequestProperty("User-Agent",
+                "Revision Reporter/0.1 (http://www.cs.bsu.edu/~pvg/courses/cs222Sp22; tsnicholas@bsu.edu, acmiller@bsu.edu)");
+    }
+
     public void getRevisions() {
         try {
-            connection = wikiURL.openConnection();
-            connection.setRequestProperty("User-Agent",
-                    "Revision Reporter/0.1 (http://www.cs.bsu.edu/~pvg/courses/cs222Sp22; tsnicholas@bsu.edu, acmiller@bsu.edu)");
             parseRevisions();
         }
         catch (IOException e) {
-            ErrorWindow error = new ErrorWindow("An error has occurred.");
-            error.displayError();
+            ErrorWindow exceptionError = new ErrorWindow("An error has occurred");
+            exceptionError.displayError();
         }
     }
 
     private void parseRevisions() throws IOException {
         InputStream inputStream = connection.getInputStream();
-        revisionParser parser = new revisionParser();
-        parser.parse(inputStream);
+        wikiParser parser = new wikiParser();
+        parser.parseRevision(inputStream);
     }
 }

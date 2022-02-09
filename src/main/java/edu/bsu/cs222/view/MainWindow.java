@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 public class MainWindow extends Application {
@@ -35,7 +36,8 @@ public class MainWindow extends Application {
         button.setOnAction((event) -> {
             String wikiName = textField.getText();
             obtainInputWiki(wikiName);
-
+            connectToPage();
+            inputWiki.getRevisions();
         });
 
         VBox vbox = new VBox();
@@ -55,6 +57,16 @@ public class MainWindow extends Application {
         catch (MalformedURLException e) {
             ErrorWindow URLError = new ErrorWindow(wikiName + " doesn't exist");
             URLError.displayError();
+        }
+    }
+
+    private void connectToPage() {
+        try {
+            inputWiki.connect();
+        }
+        catch (IOException e) {
+            ErrorWindow networkError = new ErrorWindow("A network error has occurred.");
+            networkError.displayError();
         }
     }
 }
