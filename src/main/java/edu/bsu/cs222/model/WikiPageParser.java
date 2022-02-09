@@ -8,7 +8,8 @@ import java.io.InputStream;
 
 public class WikiPageParser {
     public String parse(InputStream testDataStream) throws IOException {
-        JSONArray result = (JSONArray) JsonPath.read(testDataStream, "$..timestamp");
-        return result.get(0).toString();
+        JSONArray timestamp = (JSONArray) JsonPath.read(testDataStream, "$..timestamp");
+        JSONArray user = (JSONArray) JsonPath.read(testDataStream, "$..user");
+        return timestamp.get(0).toString();
     }
 }
