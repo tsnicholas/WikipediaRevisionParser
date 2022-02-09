@@ -11,7 +11,6 @@ import java.util.Scanner;
 public class WikiPageReader {
     private final URL wikiURL;
     private URLConnection connection;
-    private HashMap<String, String> revisions;
 
     public WikiPageReader(String wikiName) throws MalformedURLException {
         wikiURL = new URL("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" + wikiName + "&rvprop=timestamp|user&rvlimit=30&redirects");
@@ -24,7 +23,6 @@ public class WikiPageReader {
     }
 
     public void getRevisions() throws IOException {
-        InputStream inputStream = connection.getInputStream();
-        WikiPageParser parser = new WikiPageParser();
+        RevisionData revisions = new RevisionData(connection.getInputStream());
     }
 }
