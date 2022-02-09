@@ -12,7 +12,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 
 public class MainWindow extends Application {
@@ -20,7 +19,7 @@ public class MainWindow extends Application {
     private final TextField textField = new TextField();
     private final Button button = new Button("Search");
     private final Label label = new Label("Enter a Wikipedia Page");
-    private wikiPage inputWiki;
+    private final wikiPage revision = new wikiPage();
 
     @Override
     public void start(Stage primaryStage) {
@@ -34,10 +33,7 @@ public class MainWindow extends Application {
     private Parent createUI() {
         label.setFont(Font.font("Comic Sans", 14));
         button.setOnAction((event) -> {
-            String wikiName = textField.getText();
-            obtainInputWiki(wikiName);
-            connectToPage();
-            inputWiki.getRevisions();
+            getInput();
         });
 
         VBox vbox = new VBox();
@@ -50,23 +46,15 @@ public class MainWindow extends Application {
         return vbox;
     }
 
-    private void obtainInputWiki(String wikiName) {
-        try {
-            inputWiki = new wikiPage(wikiName);
-        }
-        catch (MalformedURLException e) {
-            ErrorWindow URLError = new ErrorWindow(wikiName + " doesn't exist");
-            URLError.displayError();
-        }
-    }
+    private void getInput() {
+        String wikipediaName = textField.getText();
 
-    private void connectToPage() {
         try {
-            inputWiki.connect();
+            revision.findRevisionURL(wikipediaName);
         }
-        catch (IOException e) {
-            ErrorWindow networkError = new ErrorWindow("A network error has occurred.");
-            networkError.displayError();
+        catch(MalformedURLException nonExistentWikipediaPage) {
+            ErrorWindow URLError = new ErrorWindow(wikipediaName + " doesn't exist");
+            URLError.displayError();
         }
     }
 }
