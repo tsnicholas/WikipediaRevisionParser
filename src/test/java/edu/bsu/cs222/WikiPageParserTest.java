@@ -10,6 +10,7 @@ import java.io.InputStream;
 
 
 public class WikiPageParserTest {
+    private final InputStream testStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
 
     @Test
     public void testParseTimestamps() throws IOException {
@@ -20,9 +21,22 @@ public class WikiPageParserTest {
         expectedTimestamps.add("2021-10-24T11:34:47Z");
 
         WikiPageParser parser = new WikiPageParser();
-        InputStream testStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test.json");
         JSONArray results = parser.parseTimestamps(testStream);
 
         Assertions.assertEquals(expectedTimestamps, results);
+    }
+
+    @Test
+    public void testParseUsers() throws IOException {
+        JSONArray expectedUsers = new JSONArray();
+        expectedUsers.add("GünniX");
+        expectedUsers.add("Jessicapierce");
+        expectedUsers.add("Finnusertop");
+        expectedUsers.add("Ganmatthew");
+
+        WikiPageParser parser = new WikiPageParser();
+        JSONArray results = parser.parseUsers(testStream);
+
+        Assertions.assertEquals(expectedUsers, results);
     }
 }
