@@ -12,7 +12,7 @@ public class WikiPageParser {
     private JSONArray timestamps;
     private JSONArray users;
 
-    public HashMap parse(InputStream testDataStream) throws IOException {
+    public HashMap<String, String> parse(InputStream testDataStream) throws IOException {
         data = new HashMap<String, String>();
         timestamps = (JSONArray) JsonPath.read(testDataStream, "$..timestamp");
         users = (JSONArray) JsonPath.read(testDataStream, "$..user");

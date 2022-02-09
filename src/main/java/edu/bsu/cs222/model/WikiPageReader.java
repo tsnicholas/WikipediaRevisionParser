@@ -26,11 +26,5 @@ public class WikiPageReader {
     public void getRevisions() throws IOException {
         InputStream inputStream = connection.getInputStream();
         WikiPageParser parser = new WikiPageParser();
-        revisions = parser.parse(inputStream);
-    }
-
-    // TODO: Use a StringBuilder and organize all data in revisions into one big string
-    public String toString() {
-        return "";
     }
 }
