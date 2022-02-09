@@ -5,11 +5,22 @@ import net.minidev.json.JSONArray;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 
 public class WikiPageParser {
-    public String parse(InputStream testDataStream) throws IOException {
-        JSONArray timestamp = (JSONArray) JsonPath.read(testDataStream, "$..timestamp");
-        JSONArray user = (JSONArray) JsonPath.read(testDataStream, "$..user");
-        return timestamp.get(0).toString();
+    private HashMap<String, String> data;
+    private JSONArray timestamps;
+    private JSONArray users;
+
+    public HashMap parse(InputStream testDataStream) throws IOException {
+        data = new HashMap<String, String>();
+        timestamps = (JSONArray) JsonPath.read(testDataStream, "$..timestamp");
+        users = (JSONArray) JsonPath.read(testDataStream, "$..user");
+
+        for(int i = 0; i < timestamps.toArray().length - 1; i++) {
+            data.put(timestamps.get(i).toString(), users.get(i).toString());
+        }
+
+        return data;
     }
 }

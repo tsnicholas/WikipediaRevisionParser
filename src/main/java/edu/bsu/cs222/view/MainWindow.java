@@ -60,14 +60,12 @@ public class MainWindow extends Application {
     }
 
     private void getConnection() {
-        try{
+        try {
             wikiPage.connect();
         }
         catch (Exception e) {
             ErrorWindow ConnectionError = new ErrorWindow("A network error has occured");
             ConnectionError.displayError();
         }
-
     }
-
 }

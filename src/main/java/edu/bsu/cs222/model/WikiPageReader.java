@@ -5,11 +5,13 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class WikiPageReader {
     private final URL wikiURL;
     private URLConnection connection;
+    private HashMap<String, String> revisions;
 
     public WikiPageReader(String wikiName) throws MalformedURLException {
         wikiURL = new URL("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" + wikiName + "&rvprop=timestamp|user&rvlimit=30&redirects");
@@ -22,12 +24,9 @@ public class WikiPageReader {
     }
 
     public void getRevisions() throws IOException {
-        try{
-            InputStream inputStream = connection.getInputStream();
-            WikiPageParser parser = new WikiPageParser();
-            String timestamp = parser.parse(inputStream);
-        } catch (MalformedURLException malformedURLException){
-            throw new MalformedURLException();
-        }
+        InputStream inputStream = connection.getInputStream();
+        WikiPageParser parser = new WikiPageParser();
+        revisions = parser.parse(inputStream);
     }
+
 }
