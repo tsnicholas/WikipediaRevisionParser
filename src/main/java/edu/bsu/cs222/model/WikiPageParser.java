@@ -13,6 +13,6 @@ public class WikiPageParser {
     }
 
     public JSONArray parseUsers(InputStream wikiRevisionData) throws IOException {
-        return JsonPath.read(wikiRevisionData, "$..users");
+        return JsonPath.read(wikiRevisionData, "$..user");
     }
 }

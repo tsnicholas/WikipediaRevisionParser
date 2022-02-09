@@ -21,8 +21,9 @@ public class MainWindow extends Application {
     private final TextField textField = new TextField();
     private final Button searchButton = new Button("Search");
     private final Label instruction = new Label("Enter the name of Wikipedia Page");
+    private final Text revisions = new Text("");
     private WikiPageReader wikiPage;
-    private Text revisions;
+
 
     @Override
     public void start(Stage primaryStage) {
@@ -34,6 +35,9 @@ public class MainWindow extends Application {
     }
 
     private Parent createUI() {
+        instruction.setFont(Font.font("Comic Sans", 14));
+        searchButton.setAlignment(Pos.CENTER);
+
         VBox vbox = new VBox();
         vbox.getChildren().addAll(
                 instruction,
@@ -41,9 +45,6 @@ public class MainWindow extends Application {
                 searchButton,
                 revisions
         );
-
-        instruction.setFont(Font.font("Comic Sans", 14));
-        searchButton.setAlignment(Pos.CENTER);
 
         if(textField.getText().equals("")) {
             searchButton.setDisable(true);
