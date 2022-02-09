@@ -1,6 +1,6 @@
 package edu.bsu.cs222.view;
 
-import edu.bsu.cs222.model.wikiPage;
+import edu.bsu.cs222.model.WikiPageReader;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,7 +19,7 @@ public class MainWindow extends Application {
     private final TextField textField = new TextField();
     private final Button button = new Button("Search");
     private final Label label = new Label("Enter a Wikipedia Page");
-    private final wikiPage revision = new wikiPage();
+    private WikiPageReader wikiPage;
 
     @Override
     public void start(Stage primaryStage) {
@@ -33,7 +33,9 @@ public class MainWindow extends Application {
     private Parent createUI() {
         label.setFont(Font.font("Comic Sans", 14));
         button.setOnAction((event) -> {
-            getInput();
+            String wikiName = textField.getText();
+            getInput(wikiName);
+            getConnection();
         });
 
         VBox vbox = new VBox();
@@ -46,15 +48,26 @@ public class MainWindow extends Application {
         return vbox;
     }
 
-    private void getInput() {
-        String wikipediaName = textField.getText();
+    private void getInput(String wikiName) {
 
         try {
-            revision.findRevisionURL(wikipediaName);
+            wikiPage = new WikiPageReader(wikiName);
         }
         catch(MalformedURLException nonExistentWikipediaPage) {
-            ErrorWindow URLError = new ErrorWindow(wikipediaName + " doesn't exist");
+            ErrorWindow URLError = new ErrorWindow(wikiName + " doesn't exist");
             URLError.displayError();
         }
     }
+
+    private void getConnection() {
+        try{
+            wikiPage.connect();
+        }
+        catch (Exception e) {
+            ErrorWindow ConnectionError = new ErrorWindow("A network error has occured");
+            ConnectionError.displayError();
+        }
+
+    }
+
 }
