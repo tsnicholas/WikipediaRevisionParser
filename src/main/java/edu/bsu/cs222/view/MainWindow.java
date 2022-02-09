@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -26,7 +25,6 @@ public class MainWindow extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setScene(new Scene(createUI()));
         primaryStage.setTitle("Wikipedia Revision Getter");
-        primaryStage.getIcons().add(new Image("Wikipedia Icon.jpg"));
         primaryStage.setWidth(500.0);
         primaryStage.show();
     }
