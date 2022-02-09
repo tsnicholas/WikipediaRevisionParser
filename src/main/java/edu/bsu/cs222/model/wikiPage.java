@@ -6,19 +6,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class wikiPage {
-    private URL wiki;
+    private URL wikiURL;
 
-    public wikiPage() {
+    public wikiPage(String wikiName) throws MalformedURLException {
+        wikiURL = new URL("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" + wikiName + "&rvprop=timestamp|user&rvlimit=4&redirects");
+    }
+
+    public void createConnection() {
 
     }
 
-    public void obtainWikiURL(String wikipediaName) {
-        try {
-            wiki = new URL("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" + wikipediaName + "&rvprop=timestamp|user&rvlimit=30&redirects");
-        }
-        catch (MalformedURLException e) {
-            ErrorWindow URLError = new ErrorWindow(wikipediaName + " doesn't exist");
-            URLError.displayError();
-        }
-    }
 }

@@ -12,12 +12,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.net.MalformedURLException;
+
 public class MainWindow extends Application {
 
     private final TextField textField = new TextField();
     private final Button button = new Button("Search");
     private final Label label = new Label("Enter a Wikipedia Page");
-    private final wikiPage revision = new wikiPage();
+    private wikiPage inputWiki;
 
     @Override
     public void start(Stage primaryStage) {
@@ -31,8 +33,9 @@ public class MainWindow extends Application {
     private Parent createUI() {
         label.setFont(Font.font("Comic Sans", 14));
         button.setOnAction((event) -> {
-            String wikipediaName = textField.getText();
-            revision.obtainWikiURL(wikipediaName);
+            String wikiName = textField.getText();
+            obtainInputWiki(wikiName);
+
         });
 
         VBox vbox = new VBox();
@@ -43,5 +46,15 @@ public class MainWindow extends Application {
         );
 
         return vbox;
+    }
+
+    private void obtainInputWiki(String wikiName) {
+        try {
+            inputWiki = new wikiPage(wikiName);
+        }
+        catch (MalformedURLException e) {
+            ErrorWindow URLError = new ErrorWindow(wikiName + " doesn't exist");
+            URLError.displayError();
+        }
     }
 }
