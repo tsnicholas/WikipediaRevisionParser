@@ -22,7 +22,7 @@ public class wikiPage {
             connection.setRequestProperty("User-Agent",
                     "Revision Reporter/0.1 (http://www.cs.bsu.edu/~pvg/courses/cs222Sp22; tsnicholas@bsu.edu, acmiller@bsu.edu)");
             InputStream inputStream = connection.getInputStream();
-            revisionParser revisionparser = new revisionParser();
+            revisionParser parser = new revisionParser();
         }
         catch (IOException e) {
             ErrorWindow error = new ErrorWindow("An error has occurred.");
