@@ -29,4 +29,8 @@ public class WikiPageReader {
         revisions = parser.parse(inputStream);
     }
 
+    // TODO: Use a StringBuilder and organize all data in revisions into one big string
+    public String toString() {
+        return "";
+    }
 }

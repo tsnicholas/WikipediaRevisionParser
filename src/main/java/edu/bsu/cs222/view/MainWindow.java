@@ -17,9 +17,8 @@ import java.net.MalformedURLException;
 public class MainWindow extends Application {
 
     private final TextField textField = new TextField();
-    private final Button button = new Button("Search");
-    private final Label label = new Label("Enter a Wikipedia Page");
-    private WikiPageReader wikiPage;
+    private final Button searchButton = new Button("Search");
+    private final Label instruction = new Label("Enter the name of Wikipedia Page");
 
     @Override
     public void start(Stage primaryStage) {
@@ -31,40 +30,34 @@ public class MainWindow extends Application {
     }
 
     private Parent createUI() {
-        label.setFont(Font.font("Comic Sans", 14));
-        button.setOnAction((event) -> {
+        instruction.setFont(Font.font("Comic Sans", 14));
+        searchButton.setOnAction((event) -> {
             String wikiName = textField.getText();
-            getInput(wikiName);
-            getConnection();
+            processWikipedia(wikiName);
         });
 
         VBox vbox = new VBox();
         vbox.getChildren().addAll(
-                label,
+                instruction,
                 textField,
-                button
+                searchButton
         );
 
         return vbox;
     }
 
-    private void getInput(String wikiName) {
-
+    private void processWikipedia(String wikiName) {
         try {
-            wikiPage = new WikiPageReader(wikiName);
+            WikiPageReader wikiPage = new WikiPageReader(wikiName);
+            wikiPage.connect();
+            wikiPage.getRevisions();
         }
-        catch(MalformedURLException nonExistentWikipediaPage) {
-            ErrorWindow URLError = new ErrorWindow(wikiName + " doesn't exist");
+        catch(MalformedURLException malformedURLException) {
+            ErrorWindow URLError = new ErrorWindow("An error has occurred.");
             URLError.displayError();
         }
-    }
-
-    private void getConnection() {
-        try {
-            wikiPage.connect();
-        }
-        catch (Exception e) {
-            ErrorWindow ConnectionError = new ErrorWindow("A network error has occured");
+        catch(Exception e) {
+            ErrorWindow ConnectionError = new ErrorWindow("A network error has occurred");
             ConnectionError.displayError();
         }
     }
