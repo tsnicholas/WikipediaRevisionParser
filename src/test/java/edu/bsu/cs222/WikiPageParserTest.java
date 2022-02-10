@@ -1,12 +1,14 @@
 package edu.bsu.cs222;
 
+import edu.bsu.cs222.model.RevisionData;
 import edu.bsu.cs222.model.WikiPageParser;
-import net.minidev.json.JSONArray;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+
+import net.minidev.json.JSONArray;
 
 
 public class WikiPageParserTest {
@@ -39,4 +41,19 @@ public class WikiPageParserTest {
 
         Assertions.assertEquals(expectedUsers, results);
     }
+
+
+//    @Test
+//    public void testParseBoth() throws IOException {
+//        HashMap<String, String> expectedResults = new HashMap<>();
+//        expectedResults.put("2021-12-04T18:29:33Z", "GünniX");
+//        expectedResults.put("2021-12-02T19:17:09Z", "Jessicapierce");
+//        expectedResults.put("2021-12-02T19:09:33Z", "Finnusertop");
+//        expectedResults.put("2021-10-24T11:34:47Z", "Ganmatthew");
+//
+//        WikiPageParser parser = new WikiPageParser();
+//        HashMap results = parser.parseTimestamps(testStream);
+//
+//
+//    }
 }

@@ -24,5 +24,7 @@ public class WikiPageReader {
 
     public void getRevisions() throws IOException {
         RevisionData revisions = new RevisionData(connection.getInputStream());
+
+
     }
 }

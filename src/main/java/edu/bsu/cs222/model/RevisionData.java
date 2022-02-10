@@ -32,7 +32,13 @@ public class RevisionData {
         }
     }
 
-    private void transferData() {
+    private HashMap transferData() {
+        for (int i = 0; i <= timestamps.size(); i++) {
+            String k = timestamps.get(i).toString();
+            String v = usernames.get(i).toString();
+            revisionList.put(k, v);
+        }
+        return revisionList;
 
     }
 }
