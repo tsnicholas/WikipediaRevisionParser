@@ -11,6 +11,7 @@ import net.minidev.json.JSONArray;
 
 public class WikiPageParserTest {
     private final InputStream testStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("testRedirectedPage.json");
+    private final InputStream invalidStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("testInvalidPage.json");
     private final WikiPageParser parser = new WikiPageParser();
 
     @Test
@@ -36,5 +37,11 @@ public class WikiPageParserTest {
 
         JSONArray result = parser.parseUsers(testStream);
         Assertions.assertEquals(expectedUsers, result);
+    }
+
+    @Test
+    public void testParsePageNumber() {
+        int pageNum = parser.parsePageNum(invalidStream);
+        Assertions.assertEquals(-1, pageNum);
     }
 }
