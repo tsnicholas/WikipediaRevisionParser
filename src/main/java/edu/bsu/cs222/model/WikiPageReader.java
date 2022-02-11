@@ -22,9 +22,8 @@ public class WikiPageReader {
                 "Revision Reporter/0.1 (http://www.cs.bsu.edu/~pvg/courses/cs222Sp22; acmiller@bsu.edu, tsnicholas@bsu.edu)");
     }
 
-    public void getRevisions() throws IOException {
+    public String getRevisions() throws IOException {
         RevisionData revisions = new RevisionData(connection.getInputStream());
-
-
+        return revisions.toString();
     }
 }

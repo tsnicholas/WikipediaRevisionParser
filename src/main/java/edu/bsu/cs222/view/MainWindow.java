@@ -14,6 +14,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 public class MainWindow extends Application {
@@ -24,6 +25,8 @@ public class MainWindow extends Application {
     private final Text revisions = new Text("");
     private WikiPageReader wikiPage;
 
+
+    // TODO: The error windows are a bit of a DRY violation, fix it
 
     @Override
     public void start(Stage primaryStage) {
@@ -53,7 +56,15 @@ public class MainWindow extends Application {
             searchButton.setOnAction((event) -> {
                 String wikiName = textField.getText();
                 processWikipedia(wikiName);
-                revisions.setText(wikiPage.toString());
+
+                try {
+                    revisions.setText(wikiPage.getRevisions());
+                }
+                catch(IOException exception) {
+                    ErrorWindow newError = new ErrorWindow("An error has occurred");
+                    newError.displayError();
+                }
+
             });
         }
 

@@ -32,12 +32,20 @@ public class RevisionData {
         }
     }
 
-    private HashMap transferData() {
+    private void transferData() {
         for (int i = 0; i <= timestamps.size(); i++) {
             String k = timestamps.get(i).toString();
             String v = usernames.get(i).toString();
             revisionList.put(k, v);
         }
-        return revisionList;
     }
+
+    //TODO: Add a toString() method for RevisionData, this will be the results that's displayed. Recommend using a StringBuilder
+    public String toString() {
+        return "";
+    }
+
+
+    //TODO: Should add an exception that checks if the wikiPage exists, of course this needs to be in it's own seperate class
+
 }
