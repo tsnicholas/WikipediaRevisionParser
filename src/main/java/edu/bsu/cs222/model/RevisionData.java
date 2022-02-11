@@ -4,19 +4,20 @@ import net.minidev.json.JSONArray;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
 public class RevisionData {
     private final HashMap<String, String> revisionList;
     private final InputStream data;
-    private JSONArray timestamps;
-    private JSONArray usernames;
+    private JSONArray timestamps = new JSONArray();
+    private JSONArray usernames = new JSONArray();
 
 
-    public RevisionData(InputStream data) throws IOException {
+    public RevisionData(URLConnection connection) throws IOException {
         revisionList = new HashMap<>();
-        this.data = data;
+        data = connection.getInputStream();
         retrieveData();
         transferData();
     }

@@ -10,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -19,11 +18,10 @@ import java.net.MalformedURLException;
 
 public class MainWindow extends Application {
 
-    private final TextField textField = new TextField();
+    private final TextField textField = new TextField("");
     private final Button searchButton = new Button("Search");
     private final Label instruction = new Label("Enter the name of Wikipedia Page");
     private final Text revisions = new Text("");
-    private WikiPageReader wikiPage;
 
     @Override
     public void start(Stage primaryStage) {
@@ -35,7 +33,6 @@ public class MainWindow extends Application {
     }
 
     private Parent createUI() {
-        instruction.setFont(Font.font("Comic Sans", 14));
         searchButton.setAlignment(Pos.CENTER);
 
         VBox vbox = new VBox();
@@ -48,9 +45,14 @@ public class MainWindow extends Application {
 
 
         searchButton.setOnAction((event) -> {
+            textField.setDisable(true);
+            searchButton.setDisable(true);
+
             String wikiName = textField.getText();
             processWikipedia(wikiName);
-            processRevisionData();
+
+            textField.setDisable(false);
+            searchButton.setDisable(false);
         });
 
         return vbox;
@@ -58,27 +60,17 @@ public class MainWindow extends Application {
 
     private void processWikipedia(String wikiName) {
         try {
-            wikiPage = new WikiPageReader(wikiName);
+            WikiPageReader wikiPage = new WikiPageReader(wikiName);
             wikiPage.connect();
+            revisions.setText(wikiPage.getRevisions());
         }
         catch(MalformedURLException malformedURLException) {
-            malformedURLException.getCause();
-            ErrorWindow URLError = new ErrorWindow("A URL Error has occurred");
+            ErrorWindow URLError = new ErrorWindow("An URL Error has occurred");
             URLError.displayError();
         }
         catch(IOException e) {
             ErrorWindow ConnectionError = new ErrorWindow("A network error has occurred");
             ConnectionError.displayError();
-        }
-    }
-
-    private void processRevisionData() {
-        try{
-            revisions.setText(wikiPage.getRevisions());
-        }
-        catch(IOException ioException) {
-            ErrorWindow exception = new ErrorWindow("An error occurred while processing data");
-            exception.displayError();
         }
     }
 }
