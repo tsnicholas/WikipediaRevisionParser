@@ -16,11 +16,9 @@ public class WikiPageParser {
         return JsonPath.read(wikiRevisionData, "$..user");
     }
 
-    public int parsePageNum(InputStream invalidStream) {
+    public int parsePageNum(InputStream wikiRevision) {
         return -1;
     }
-
-    // TODO: add parsePageNumber(), this will be used to check if the wikiPage exists
 
     // TODO: add parseRedirect(), this will be used to check if the user was redirected
 }

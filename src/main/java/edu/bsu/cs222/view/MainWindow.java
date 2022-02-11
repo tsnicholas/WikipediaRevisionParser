@@ -26,9 +26,6 @@ public class MainWindow extends Application {
     private final ErrorWindow genericErrorWindow = new ErrorWindow("An error has occurred.");
     private WikiPageReader wikiPage;
 
-
-    // TODO: The error windows are a bit of a DRY violation, fix it
-
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setScene(new Scene(createUI()));
@@ -50,23 +47,18 @@ public class MainWindow extends Application {
                 revisions
         );
 
-        if(textField.getText().equals("")) {
-            searchButton.setDisable(true);
-        }
-        else {
-            searchButton.setOnAction((event) -> {
-                String wikiName = textField.getText();
-                processWikipedia(wikiName);
 
-                try {
-                    revisions.setText(wikiPage.getRevisions());
-                }
-                catch(IOException exception) {
-                    genericErrorWindow.displayError();
-                }
+        searchButton.setOnAction((event) -> {
+            String wikiName = textField.getText();
+            processWikipedia(wikiName);
 
-            });
-        }
+            try {
+                revisions.setText(wikiPage.getRevisions());
+            }
+            catch(IOException exception) {
+                genericErrorWindow.displayError();
+            }
+        });
 
         return vbox;
     }
