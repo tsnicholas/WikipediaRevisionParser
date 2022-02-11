@@ -12,20 +12,21 @@ public class WikiPageReader {
     private URLConnection connection;
 
     public WikiPageReader(String wikiName) throws MalformedURLException {
+        String encodedName = URLEncoder.encode(wikiName, Charset.defaultCharset());
         String urlString = String.format("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=%s&rvprop=timestamp|user&rvlimit=30&redirects",
-                wikiName);
-        String encodedURLString = URLEncoder.encode(urlString, Charset.defaultCharset());
-        wikiURL = new URL(encodedURLString);
+                encodedName);
+        wikiURL = new URL(urlString);
     }
 
     public void connect() throws IOException {
         connection = wikiURL.openConnection();
         connection.setRequestProperty("User-Agent",
                 "Revision Reporter/0.1 (http://www.cs.bsu.edu/~pvg/courses/cs222Sp22; acmiller@bsu.edu, tsnicholas@bsu.edu)");
+        System.out.println(connection.getInputStream());
     }
 
     public String getRevisions() throws IOException {
-        RevisionData revisions = new RevisionData(connection);
+        RevisionData revisions = new RevisionData(connection.getInputStream());
         return revisions.toString();
     }
 }

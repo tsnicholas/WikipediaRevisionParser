@@ -6,38 +6,29 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.io.InputStream;
 
-import net.minidev.json.JSONArray;
-
-
 public class WikiPageParserTest {
-    private final InputStream soupStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("soupTest.json");
     private final InputStream testStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("testRedirectedPage.json");
     private final InputStream invalidStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("testInvalidPage.json");
     private final WikiPageParser parser = new WikiPageParser();
 
     @Test
     public void testParseTimestamps() throws IOException {
-        JSONArray expectedTimestamps = new JSONArray();
-        expectedTimestamps.add("2022-02-10T01:51:19Z");
-        expectedTimestamps.add("2022-02-09T17:46:07Z");
-        expectedTimestamps.add("2022-02-09T17:45:36Z");
-        expectedTimestamps.add("2022-02-07T20:50:19Z");
+        String[] expected = {"2022-02-10T01:51:19Z", "2022-02-09T17:46:07Z", "2022-02-09T17:45:36Z", "2022-02-07T20:50:19Z"};
+        String[] result = parser.parseTimestamps(testStream);
 
-        JSONArray results = parser.parseTimestamps(testStream);
-        Assertions.assertEquals(expectedTimestamps, results);
+        for(int i = 0; i < result.length; i++) {
+            Assertions.assertEquals(expected[i], result[i]);
+        }
     }
-
 
     @Test
     public void testParseUsers() throws IOException {
-        JSONArray expectedUsers = new JSONArray();
-        expectedUsers.add("G\\u00fcnniX");
-        expectedUsers.add("Jessicapierce");
-        expectedUsers.add("Finnusertop");
-        expectedUsers.add("Ganmatthew");
+        String[] expected = {"Harami2000", "Surtsicna", "InternetArchiveBot", "AlsoWukai"};
+        String[] result = parser.parseUsers(testStream);
 
-        JSONArray result = parser.parseUsers(soupStream);
-        Assertions.assertEquals(expectedUsers, result);
+        for(int i = 0; i < result.length; i++) {
+            Assertions.assertEquals(expected[i], result[i]);
+        }
     }
 
     @Test

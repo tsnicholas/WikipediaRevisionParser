@@ -8,12 +8,14 @@ import java.io.InputStream;
 
 public class WikiPageParser {
 
-    public JSONArray parseTimestamps(InputStream wikiRevisionData) throws IOException {
-        return JsonPath.read(wikiRevisionData, "$..timestamp");
+    public String[] parseTimestamps(InputStream wikiRevisionData) throws IOException {
+        JSONArray timestamps = JsonPath.read(wikiRevisionData, "$..timestamp");
+        return convertJsonArrayToStringArray(timestamps);
     }
 
-    public JSONArray parseUsers(InputStream wikiRevisionData) throws IOException {
-        return JsonPath.read(wikiRevisionData, "$..user");
+    public String[] parseUsers(InputStream wikiRevisionData) throws IOException {
+        JSONArray usernames = JsonPath.read(wikiRevisionData, "$..user");
+        return convertJsonArrayToStringArray(usernames);
     }
 
     public String parseRedirect(InputStream wikiRevisionData) throws IOException {
@@ -24,5 +26,14 @@ public class WikiPageParser {
     public String parseMissing(InputStream wikiRevisionData) throws IOException {
         JSONArray jason = JsonPath.read(wikiRevisionData, "$..missing");
         return jason.get(0).toString();
+    }
+
+    private String[] convertJsonArrayToStringArray(JSONArray jsonArray) {
+        String[] convertedJsonArray = new String[jsonArray.size()];
+        for(int i = 0; i < convertedJsonArray.length; i++) {
+            convertedJsonArray[i] = jsonArray.get(i).toString();
+        }
+
+        return convertedJsonArray;
     }
 }
