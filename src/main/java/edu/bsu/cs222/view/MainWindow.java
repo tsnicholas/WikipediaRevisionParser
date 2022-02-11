@@ -75,7 +75,6 @@ public class MainWindow extends Application {
         try {
             wikiPage = new WikiPageReader(wikiName);
             wikiPage.connect();
-            wikiPage.getRevisions();
         }
         catch(MalformedURLException malformedURLException) {
             ErrorWindow URLError = new ErrorWindow("An error has occurred.");
