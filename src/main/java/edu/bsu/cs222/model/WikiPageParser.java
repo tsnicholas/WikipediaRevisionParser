@@ -16,9 +16,13 @@ public class WikiPageParser {
         return JsonPath.read(wikiRevisionData, "$..user");
     }
 
-    public int parsePageNum(InputStream wikiRevision) {
-        return -1;
+    public String parseRedirect(InputStream wikiRevisionData) throws IOException {
+        JSONArray Joe = JsonPath.read(wikiRevisionData, "$..to");
+        return Joe.get(0).toString();
     }
 
-    // TODO: add parseRedirect(), this will be used to check if the user was redirected
+    public String parseMissing(InputStream wikiRevisionData) throws IOException {
+        JSONArray jason = JsonPath.read(wikiRevisionData, "$..missing");
+        return jason.get(0).toString();
+    }
 }

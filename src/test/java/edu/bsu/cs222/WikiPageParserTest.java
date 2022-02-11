@@ -10,6 +10,7 @@ import net.minidev.json.JSONArray;
 
 
 public class WikiPageParserTest {
+    private final InputStream soupStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("soupTest.json");
     private final InputStream testStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("testRedirectedPage.json");
     private final InputStream invalidStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("testInvalidPage.json");
     private final WikiPageParser parser = new WikiPageParser();
@@ -30,18 +31,24 @@ public class WikiPageParserTest {
     @Test
     public void testParseUsers() throws IOException {
         JSONArray expectedUsers = new JSONArray();
-        expectedUsers.add("Harami2000");
-        expectedUsers.add("Surtsicna");
-        expectedUsers.add("InternetArchiveBot");
-        expectedUsers.add("AlsoWukai");
+        expectedUsers.add("G\\u00fcnniX");
+        expectedUsers.add("Jessicapierce");
+        expectedUsers.add("Finnusertop");
+        expectedUsers.add("Ganmatthew");
 
-        JSONArray result = parser.parseUsers(testStream);
+        JSONArray result = parser.parseUsers(soupStream);
         Assertions.assertEquals(expectedUsers, result);
     }
 
     @Test
-    public void testParsePageNumber() {
-        int pageNum = parser.parsePageNum(invalidStream);
-        Assertions.assertEquals(-1, pageNum);
+    public void testParseMissing() throws IOException {
+        String result = parser.parseMissing(invalidStream);
+        Assertions.assertEquals("", result);
+    }
+
+    @Test
+    public void testParseRedirect() throws IOException {
+        String result = parser.parseRedirect(testStream);
+        Assertions.assertEquals("Joe Biden", result);
     }
 }

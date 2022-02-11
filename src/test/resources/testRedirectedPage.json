@@ -6,7 +6,8 @@
   "query":{
     "redirects":[
       {
-      "from":"Biden","to":"Joe Biden"
+        "from":"Biden",
+        "to":"Joe Biden"
       }
     ],
     "pages":{

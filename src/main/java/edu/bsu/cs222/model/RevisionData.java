@@ -14,23 +14,18 @@ public class RevisionData {
     private JSONArray usernames;
 
 
-    public RevisionData(InputStream data) {
+    public RevisionData(InputStream data) throws IOException {
         revisionList = new HashMap<>();
         this.data = data;
         retrieveData();
         transferData();
     }
 
-    private void retrieveData() {
+    private void retrieveData() throws IOException {
         WikiPageParser parser = new WikiPageParser();
 
-        try {
-            timestamps = parser.parseTimestamps(data);
-            usernames = parser.parseUsers(data);
-        }
-        catch(IOException e) {
-            e.getCause();
-        }
+        timestamps = parser.parseTimestamps(data);
+        usernames = parser.parseUsers(data);
     }
 
     private void transferData() {
@@ -53,9 +48,4 @@ public class RevisionData {
 
         return organizedData.toString();
     }
-
-
-    //TODO: Should add an exception that checks if the wikiPage exists
-    // Of course if we make manually it will need to be in it's own seperate class
-
 }
