@@ -23,6 +23,7 @@ public class MainWindow extends Application {
     private final Button searchButton = new Button("Search");
     private final Label instruction = new Label("Enter the name of Wikipedia Page");
     private final Text revisions = new Text("");
+    private final ErrorWindow genericErrorWindow = new ErrorWindow("An error has occurred.");
     private WikiPageReader wikiPage;
 
 
@@ -61,8 +62,7 @@ public class MainWindow extends Application {
                     revisions.setText(wikiPage.getRevisions());
                 }
                 catch(IOException exception) {
-                    ErrorWindow newError = new ErrorWindow("An error has occurred");
-                    newError.displayError();
+                    genericErrorWindow.displayError();
                 }
 
             });
@@ -77,8 +77,7 @@ public class MainWindow extends Application {
             wikiPage.connect();
         }
         catch(MalformedURLException malformedURLException) {
-            ErrorWindow URLError = new ErrorWindow("An error has occurred.");
-            URLError.displayError();
+            genericErrorWindow.displayError();
         }
         catch(Exception e) {
             ErrorWindow ConnectionError = new ErrorWindow("A network error has occurred");
