@@ -23,7 +23,6 @@ public class MainWindow extends Application {
     private final Button searchButton = new Button("Search");
     private final Label instruction = new Label("Enter the name of Wikipedia Page");
     private final Text revisions = new Text("");
-    private final ErrorWindow genericErrorWindow = new ErrorWindow("An error has occurred.");
     private WikiPageReader wikiPage;
 
     @Override
@@ -51,13 +50,7 @@ public class MainWindow extends Application {
         searchButton.setOnAction((event) -> {
             String wikiName = textField.getText();
             processWikipedia(wikiName);
-
-            try {
-                revisions.setText(wikiPage.getRevisions());
-            }
-            catch(IOException exception) {
-                genericErrorWindow.displayError();
-            }
+            processRevisionData();
         });
 
         return vbox;
@@ -69,11 +62,23 @@ public class MainWindow extends Application {
             wikiPage.connect();
         }
         catch(MalformedURLException malformedURLException) {
-            genericErrorWindow.displayError();
+            malformedURLException.getCause();
+            ErrorWindow URLError = new ErrorWindow("A URL Error has occurred");
+            URLError.displayError();
         }
-        catch(Exception e) {
+        catch(IOException e) {
             ErrorWindow ConnectionError = new ErrorWindow("A network error has occurred");
             ConnectionError.displayError();
+        }
+    }
+
+    private void processRevisionData() {
+        try{
+            revisions.setText(wikiPage.getRevisions());
+        }
+        catch(IOException ioException) {
+            ErrorWindow exception = new ErrorWindow("An error occurred while processing data");
+            exception.displayError();
         }
     }
 }

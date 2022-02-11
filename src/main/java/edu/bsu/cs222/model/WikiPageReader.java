@@ -13,7 +13,7 @@ public class WikiPageReader {
         wikiURL = new URL("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" + wikiName + "&rvprop=timestamp|user&rvlimit=30&redirects");
     }
 
-    public void connect() throws Exception {
+    public void connect() throws IOException {
         connection = wikiURL.openConnection();
         connection.setRequestProperty("User-Agent",
                 "Revision Reporter/0.1 (http://www.cs.bsu.edu/~pvg/courses/cs222Sp22; acmiller@bsu.edu, tsnicholas@bsu.edu)");
