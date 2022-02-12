@@ -58,5 +58,4 @@ public class RevisionData {
         }
         return organizedString.toString();
     }
-
 }

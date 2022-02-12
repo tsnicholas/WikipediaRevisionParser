@@ -76,6 +76,7 @@ public class MainWindow extends Application {
 
     private void setUpTextFormatting() {
         instruction.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 14));
+        redirectInfo.setFont(Font.font("Verdana", FontWeight.SEMI_BOLD, 14));
         usernameColumn.setFont(Font.font("Verdana", 13));
         timestampColumn.setFont(Font.font("Verdana", 13));
     }
@@ -93,8 +94,10 @@ public class MainWindow extends Application {
     private Parent createResultDisplay() {
         ScrollPane resultDisplay = new ScrollPane();
         HBox printedText = new HBox();
+        Text buffer = new Text("    ");
         printedText.getChildren().addAll(
                 usernameColumn,
+                buffer,
                 timestampColumn
         );
         resultDisplay.setContent(printedText);
