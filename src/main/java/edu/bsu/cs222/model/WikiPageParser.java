@@ -19,13 +19,14 @@ public class WikiPageParser {
     }
 
     public String parseRedirect(InputStream wikiRevisionData) throws IOException {
-        JSONArray Joe = JsonPath.read(wikiRevisionData, "$..to");
-        return Joe.get(0).toString();
+        JSONArray redirect = JsonPath.read(wikiRevisionData, "$..to");
+        return redirect.get(0).toString();
     }
 
     public boolean parseMissing(InputStream wikiRevisionData) throws IOException {
-        JSONArray jason = JsonPath.read(wikiRevisionData, "$..pages");
-        return jason.get(0).toString().contains("-1");
+        JSONArray pages = JsonPath.read(wikiRevisionData, "$..pages");
+        System.out.println(pages.get(0).toString());
+        return pages.get(0).toString().contains("missing");
     }
 
     private String[] convertJsonArrayToStringArray(JSONArray jsonArray) {
