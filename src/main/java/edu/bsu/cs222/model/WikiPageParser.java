@@ -23,9 +23,9 @@ public class WikiPageParser {
         return Joe.get(0).toString();
     }
 
-    public String parseMissing(InputStream wikiRevisionData) throws IOException {
-        JSONArray jason = JsonPath.read(wikiRevisionData, "$..missing");
-        return jason.get(0).toString();
+    public boolean parseMissing(InputStream wikiRevisionData) throws IOException {
+        JSONArray jason = JsonPath.read(wikiRevisionData, "$..pages");
+        return jason.get(0).toString().contains("-1");
     }
 
     private String[] convertJsonArrayToStringArray(JSONArray jsonArray) {
@@ -33,7 +33,6 @@ public class WikiPageParser {
         for(int i = 0; i < convertedJsonArray.length; i++) {
             convertedJsonArray[i] = jsonArray.get(i).toString();
         }
-
         return convertedJsonArray;
     }
 }

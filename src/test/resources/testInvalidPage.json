@@ -1,12 +1,11 @@
-{
-  "batchcomplete":"",
-    "query":{
-      "pages":{
-        "-1":{
-          "ns":0,
-          "title":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH",
-          "missing":""
-        }
+{"batchcomplete":"",
+  "query":{
+    "pages":{
+      "-1":{
+        "ns":0,
+        "title":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH",
+        "missing":""
       }
     }
+  }
 }
