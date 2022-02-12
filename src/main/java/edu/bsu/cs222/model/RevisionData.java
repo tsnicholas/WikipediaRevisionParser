@@ -36,7 +36,7 @@ public class RevisionData {
         organizedString.append(retrieveRedirectInfo());
         for(int i = 0; i < usernames.length; i++) {
             organizedString.append(usernames[i]);
-            organizedString.append(" ");
+            organizedString.append("    ");
             organizedString.append(timestamps[i]);
             organizedString.append("\n");
         }

@@ -37,7 +37,7 @@ public class MainWindow extends Application {
         primaryStage.setScene(new Scene(createUI()));
         primaryStage.setTitle("Wikipedia Revision Getter");
         primaryStage.getIcons().add(new Image("Wikipedia Icon.jpg"));
-        primaryStage.setWidth(500.0);
+        setSizes(primaryStage);
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(X -> {
@@ -46,7 +46,26 @@ public class MainWindow extends Application {
         });
     }
 
+    private void setSizes(Stage primaryStage) {
+        primaryStage.setWidth(500.0);
+        primaryStage.setHeight(600.0);
+    }
+
     private Parent createUI() {
+        setUpButton();
+
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(
+                instruction,
+                textField,
+                searchButton,
+                revisions
+        );
+
+        return vbox;
+    }
+
+    private void setUpButton() {
         searchButton.setAlignment(Pos.CENTER);
 
         searchButton.setOnAction((event) -> {
@@ -63,17 +82,8 @@ public class MainWindow extends Application {
                 });
             });
         });
-
-        VBox vbox = new VBox();
-        vbox.getChildren().addAll(
-                instruction,
-                textField,
-                searchButton,
-                revisions
-        );
-
-        return vbox;
     }
+
 
     private void processWikiPage() {
         try {
