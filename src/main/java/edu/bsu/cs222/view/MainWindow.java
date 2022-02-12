@@ -1,6 +1,8 @@
 package edu.bsu.cs222.view;
 
-import edu.bsu.cs222.model.WikiPageRevisionReader;
+import edu.bsu.cs222.exceptions.NetworkErrorException;
+import edu.bsu.cs222.model.RevisionData;
+import edu.bsu.cs222.model.WikiPageReader;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -14,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -24,7 +27,9 @@ public class MainWindow extends Application {
     private final Button searchButton = new Button("Search");
     private final Label instruction = new Label("Enter the name of Wikipedia Page");
     private final Text revisions = new Text("");
-    private WikiPageRevisionReader wikiPageRevisionData;
+    private WikiPageReader wikiRevisionPage;
+    private RevisionData wikiRevisionData;
+    private String nameOfWiki;
 
     private final Executor executor = Executors.newSingleThreadExecutor();
 
@@ -45,9 +50,9 @@ public class MainWindow extends Application {
             textField.setDisable(true);
             searchButton.setDisable(true);
             executor.execute(() -> {
-                String wikiName = textField.getText();
-                processWikipedia(wikiName);
-                revisions.setText(wikiPageRevisionData.toString());
+                nameOfWiki = textField.getText();
+                processWikiPage();
+                getRevisionData();
 
                 Platform.runLater(() -> {
                     textField.setDisable(false);
@@ -67,15 +72,45 @@ public class MainWindow extends Application {
         return vbox;
     }
 
-    private void processWikipedia(String wikiName) {
+    private void processWikiPage() {
         try {
-            wikiPageRevisionData = new WikiPageRevisionReader(wikiName);
+            wikiRevisionPage = new WikiPageReader(nameOfWiki);
+            wikiRevisionPage.connectToNetwork();
         }
         catch(MalformedURLException malformedURLException) {
-            System.err.println(malformedURLException.getMessage());
-            ErrorWindow URLError = new ErrorWindow("An URL Error has occurred");
-            URLError.displayError();
+            System.err.println("URL Error: \n" + malformedURLException.getMessage());
+            genericError();
+        }
+        catch(NetworkErrorException networkError) {
+            System.err.println(networkError.getMessage());
+            ErrorWindow networkErrorAlert = new ErrorWindow("A network error has occurred");
+            networkErrorAlert.displayError();
             System.exit(0);
         }
+    }
+
+    private void getRevisionData() {
+        try {
+            revisions.setText(revisionData());
+        }
+        catch(IOException ioException) {
+            System.err.println("Error processing data: \n" + ioException.getMessage());
+            genericError();
+        }
+    }
+
+    private String revisionData() throws IOException {
+        if(!wikiRevisionPage.pageExists()) {
+            return "This page doesn't exist";
+        }
+
+        RevisionData wikiRevisionData = wikiRevisionPage.retrieveRevisionData();
+        return wikiRevisionData.toString();
+    }
+
+    private void genericError() {
+        ErrorWindow errorWindow = new ErrorWindow("An error has occurred");
+        errorWindow.displayError();
+        System.exit(0);
     }
 }
