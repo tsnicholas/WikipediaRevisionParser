@@ -5,6 +5,7 @@ import edu.bsu.cs222.model.RevisionData;
 import edu.bsu.cs222.model.WikiPageReader;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -25,7 +26,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class MainWindow extends Application {
-    private final TextField textField = new TextField();
+    private final TextField searchInput = new TextField();
     private final Button searchButton = new Button("Search");
     private final Label instruction = new Label("Enter the name of Wikipedia Page");
     private final Text redirectInfo = new Text("");
@@ -58,12 +59,13 @@ public class MainWindow extends Application {
     }
 
     private void setSizes(Stage primaryStage) {
-        primaryStage.setWidth(400.0);
+        primaryStage.setWidth(550.0);
         primaryStage.setHeight(400.0);
     }
 
     private Parent createMainWindow() {
         VBox mainWindow = new VBox();
+        mainWindow.setAlignment(Pos.TOP_CENTER);
         setUpTextFormatting();
         mainWindow.getChildren().addAll(
                 instruction,
@@ -83,9 +85,10 @@ public class MainWindow extends Application {
 
     private Parent createSearchBar() {
         setUpButton();
+        searchInput.setPrefWidth(485.0);
         HBox searchBar = new HBox();
         searchBar.getChildren().addAll(
-                textField,
+                searchInput,
                 searchButton
         );
         return searchBar;
@@ -106,16 +109,16 @@ public class MainWindow extends Application {
 
     private void setUpButton() {
         searchButton.setOnAction((event) -> {
-            textField.setDisable(true);
+            searchInput.setDisable(true);
             searchButton.setDisable(true);
 
             executor.execute(() -> {
-                nameOfWiki = textField.getText();
+                nameOfWiki = searchInput.getText();
                 processWikiPage();
                 getRevisionData();
 
                 Platform.runLater(() -> {
-                    textField.setDisable(false);
+                    searchInput.setDisable(false);
                     searchButton.setDisable(false);
                 });
             });
