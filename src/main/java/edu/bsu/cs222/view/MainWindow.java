@@ -13,7 +13,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -34,6 +37,7 @@ public class MainWindow extends Application {
     @Override
     public void start(Stage primaryStage) {
         setUpWindowBasics(primaryStage);
+        setUpHotKeys(primaryStage);
         setSizes(primaryStage);
         primaryStage.show();
     }
@@ -42,6 +46,9 @@ public class MainWindow extends Application {
         primaryStage.setScene(new Scene(createMainWindow()));
         primaryStage.setTitle("Wikipedia Revision Getter");
         primaryStage.getIcons().add(new Image("Wikipedia Icon.jpg"));
+    }
+
+    private void setUpHotKeys(Stage primaryStage) {
         primaryStage.setOnCloseRequest(X -> {
             Platform.exit();
             System.exit(0);
@@ -49,18 +56,24 @@ public class MainWindow extends Application {
     }
 
     private void setSizes(Stage primaryStage) {
-        primaryStage.setWidth(300.0);
-        primaryStage.setHeight(350.0);
+        primaryStage.setWidth(400.0);
+        primaryStage.setHeight(400.0);
     }
 
     private Parent createMainWindow() {
         VBox mainWindow = new VBox();
+        setUpTextFormatting();
         mainWindow.getChildren().addAll(
                 instruction,
                 createSearchBar(),
                 createResultDisplay()
         );
         return mainWindow;
+    }
+
+    private void setUpTextFormatting() {
+        instruction.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 14));
+        revisions.setFont(Font.font("Verdana", 13));
     }
 
     private Parent createSearchBar() {
