@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 
 public class MainWindow extends Application {
 
-    private final TextField textField = new TextField("");
+    private final TextField textField = new TextField();
     private final Button searchButton = new Button("Search");
     private final Label instruction = new Label("Enter the name of Wikipedia Page");
     private final Text revisions = new Text("");
@@ -103,12 +103,8 @@ public class MainWindow extends Application {
     }
 
     private String revisionData() throws IOException {
-        if(wikiRevisionPage.pageExists()) {
-            RevisionData wikiRevisionData = wikiRevisionPage.retrieveRevisionData();
-            return wikiRevisionData.toString();
-        }
-
-        return "This page doesn't exist";
+        RevisionData revisionData = wikiRevisionPage.retrieveRevisionData();
+        return revisionData.toString();
     }
 
     private void genericError() {

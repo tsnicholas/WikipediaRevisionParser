@@ -3,29 +3,32 @@ package edu.bsu.cs222.model;
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 
-import java.io.IOException;
 import java.io.InputStream;
+import java.util.Scanner;
 
 public class WikiPageParser {
+    public String convertInputStreamIntoString(InputStream wikiRevisionData) {
+        Scanner scanner = new Scanner(wikiRevisionData).useDelimiter("\\A");
+        return scanner.hasNext() ? scanner.next() : "";
+    }
 
-    public String[] parseTimestamps(InputStream wikiRevisionData) throws IOException {
-        JSONArray timestamps = JsonPath.read(wikiRevisionData, "$..timestamp");
+    public String[] parseTimestamps(String testStream) {
+        JSONArray timestamps = JsonPath.read(testStream, "$..timestamp");
         return convertJsonArrayToStringArray(timestamps);
     }
 
-    public String[] parseUsers(InputStream wikiRevisionData) throws IOException {
-        JSONArray usernames = JsonPath.read(wikiRevisionData, "$..user");
+    public String[] parseUsernames(String testStream) {
+        JSONArray usernames = JsonPath.read(testStream, "$..user");
         return convertJsonArrayToStringArray(usernames);
     }
 
-    public String parseRedirect(InputStream wikiRevisionData) throws IOException {
+    public String parseRedirect(String wikiRevisionData) {
         JSONArray redirect = JsonPath.read(wikiRevisionData, "$..to");
         return redirect.get(0).toString();
     }
 
-    public boolean parseForPageID(InputStream wikiRevisionData) throws IOException {
+    public boolean parseForPageID(String wikiRevisionData) {
         JSONArray pages = JsonPath.read(wikiRevisionData, "$..pages");
-        System.out.println(pages.get(0).toString());
         return pages.get(0).toString().contains("pageid");
     }
 

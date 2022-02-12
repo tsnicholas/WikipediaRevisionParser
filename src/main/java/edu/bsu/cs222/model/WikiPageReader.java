@@ -8,7 +8,6 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class WikiPageReader {
-    private final WikiPageParser parser = new WikiPageParser();
     private final URL wikiURL;
     private URLConnection connection;
 
@@ -29,28 +28,7 @@ public class WikiPageReader {
         }
     }
 
-    public boolean pageExists() throws IOException {
-        try {
-            return parser.parseForPageID(connection.getInputStream());
-        }
-        catch(IOException checkFailed) {
-            throw new IOException();
-        }
-    }
-
     public RevisionData retrieveRevisionData() throws IOException {
-        String[] timestamps = parser.parseTimestamps(connection.getInputStream());
-        String[] usernames = parser.parseUsers(connection.getInputStream());
-        String redirect = retrieveRedirectInfo();
-        return new RevisionData(timestamps, usernames, redirect);
-    }
-
-    private String retrieveRedirectInfo() {
-        try {
-            return "Redirected to " + parser.parseRedirect(connection.getInputStream()) + "\n";
-        }
-        catch(IOException noRedirect) {
-            return "";
-        }
+        return new RevisionData(connection.getInputStream());
     }
 }
