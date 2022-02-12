@@ -24,31 +24,39 @@ public class RevisionData {
         timestamps = parser.parseTimestamps(wikiRevisionData);
     }
 
-    public String toString() {
-        if(pageExists()) {
-            return organizedData();
+    public String getRedirectInfo() {
+        String redirectedName = parser.parseRedirect(wikiRevisionData);
+        if(redirectedName.equals("")) {
+            return redirectedName;
         }
-        return "Page doesn't exist";
+        return "Redirected to " + redirectedName + "\n";
     }
 
-    private String organizedData() {
+    public String getUsernames() throws PageDoesNotExistException {
+        if(pageExists()) {
+            return organizedData(usernames);
+        }
+        else {
+            throw new PageDoesNotExistException();
+        }
+    }
+
+    public String getTimestamps() throws PageDoesNotExistException {
+        if(pageExists()) {
+            return organizedData(timestamps);
+        }
+        else {
+            throw new PageDoesNotExistException();
+        }
+    }
+
+    private String organizedData(String[] insertedData) {
         StringBuilder organizedString = new StringBuilder();
-        organizedString.append(retrieveRedirectInfo());
-        for(int i = 0; i < usernames.length; i++) {
-            organizedString.append(usernames[i]);
-            organizedString.append("    ");
-            organizedString.append(timestamps[i]);
+        for(String insertedDatum : insertedData) {
+            organizedString.append(insertedDatum);
             organizedString.append("\n");
         }
         return organizedString.toString();
-    }
-
-    private String retrieveRedirectInfo() {
-        String redirectedName = parser.parseRedirect(wikiRevisionData);
-        if(redirectedName.equals("")) {
-           return redirectedName;
-        }
-        return "Redirected to " + redirectedName + "\n";
     }
 
 }

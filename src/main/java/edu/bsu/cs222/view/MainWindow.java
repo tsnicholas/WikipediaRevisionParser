@@ -1,5 +1,6 @@
 package edu.bsu.cs222.view;
 
+import edu.bsu.cs222.model.PageDoesNotExistException;
 import edu.bsu.cs222.model.RevisionData;
 import edu.bsu.cs222.model.WikiPageReader;
 import javafx.application.Application;
@@ -16,7 +17,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -28,7 +28,9 @@ public class MainWindow extends Application {
     private final TextField textField = new TextField();
     private final Button searchButton = new Button("Search");
     private final Label instruction = new Label("Enter the name of Wikipedia Page");
-    private final Text revisions = new Text("");
+    private final Text redirectInfo = new Text("");
+    private final Text usernameColumn = new Text("");
+    private final Text timestampColumn = new Text("");
     private WikiPageReader wikiRevisionPage;
     private String nameOfWiki;
 
@@ -66,6 +68,7 @@ public class MainWindow extends Application {
         mainWindow.getChildren().addAll(
                 instruction,
                 createSearchBar(),
+                redirectInfo,
                 createResultDisplay()
         );
         return mainWindow;
@@ -73,7 +76,8 @@ public class MainWindow extends Application {
 
     private void setUpTextFormatting() {
         instruction.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 14));
-        revisions.setFont(Font.font("Verdana", 13));
+        usernameColumn.setFont(Font.font("Verdana", 13));
+        timestampColumn.setFont(Font.font("Verdana", 13));
     }
 
     private Parent createSearchBar() {
@@ -88,8 +92,11 @@ public class MainWindow extends Application {
 
     private Parent createResultDisplay() {
         ScrollPane resultDisplay = new ScrollPane();
-        VBox printedText = new VBox();
-        printedText.getChildren().add(revisions);
+        HBox printedText = new HBox();
+        printedText.getChildren().addAll(
+                usernameColumn,
+                timestampColumn
+        );
         resultDisplay.setContent(printedText);
         return resultDisplay;
     }
@@ -131,17 +138,20 @@ public class MainWindow extends Application {
 
     private void getRevisionData() {
         try {
-            revisions.setText(revisionData());
+            RevisionData revisionData = wikiRevisionPage.retrieveRevisionData();
+            redirectInfo.setText(revisionData.getRedirectInfo());
+            usernameColumn.setText(revisionData.getUsernames());
+            timestampColumn.setText(revisionData.getTimestamps());
+        }
+        catch(PageDoesNotExistException doesNotExistException) {
+            redirectInfo.setText("Page does not exist");
+            usernameColumn.setText("");
+            timestampColumn.setText("");
         }
         catch(IOException ioException) {
             System.err.println("Error processing data: \n" + ioException.getMessage());
             genericError();
         }
-    }
-
-    private String revisionData() throws IOException {
-        RevisionData revisionData = wikiRevisionPage.retrieveRevisionData();
-        return revisionData.toString();
     }
 
     private void genericError() {
