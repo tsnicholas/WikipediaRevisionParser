@@ -40,8 +40,8 @@ public class MainWindow extends Application {
     @Override
     public void start(Stage primaryStage) {
         setUpWindowBasics(primaryStage);
-        setUpHotKeys(primaryStage);
-        setSizes(primaryStage);
+        setUpExit(primaryStage);
+        setUpDefaultSize(primaryStage);
         primaryStage.show();
     }
 
@@ -51,14 +51,14 @@ public class MainWindow extends Application {
         primaryStage.getIcons().add(new Image("Wikipedia Icon.jpg"));
     }
 
-    private void setUpHotKeys(Stage primaryStage) {
+    private void setUpExit(Stage primaryStage) {
         primaryStage.setOnCloseRequest(X -> {
             Platform.exit();
             System.exit(0);
         });
     }
 
-    private void setSizes(Stage primaryStage) {
+    private void setUpDefaultSize(Stage primaryStage) {
         primaryStage.setWidth(550.0);
         primaryStage.setHeight(400.0);
     }
