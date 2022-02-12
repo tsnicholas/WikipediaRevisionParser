@@ -23,8 +23,13 @@ public class WikiPageParser {
     }
 
     public String parseRedirect(String wikiRevisionData) {
-        JSONArray redirect = JsonPath.read(wikiRevisionData, "$..to");
-        return redirect.get(0).toString();
+        try {
+            JSONArray redirect = JsonPath.read(wikiRevisionData, "$..to");
+            return redirect.get(0).toString();
+        }
+        catch(IndexOutOfBoundsException exception) {
+            return "";
+        }
     }
 
     public boolean parseForPageID(String wikiRevisionData) {

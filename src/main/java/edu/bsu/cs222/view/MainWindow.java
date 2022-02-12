@@ -1,6 +1,5 @@
 package edu.bsu.cs222.view;
 
-import edu.bsu.cs222.exceptions.NetworkErrorException;
 import edu.bsu.cs222.model.RevisionData;
 import edu.bsu.cs222.model.WikiPageReader;
 import javafx.application.Application;
@@ -40,6 +39,7 @@ public class MainWindow extends Application {
         primaryStage.getIcons().add(new Image("Wikipedia Icon.jpg"));
         primaryStage.setWidth(500.0);
         primaryStage.show();
+
         primaryStage.setOnCloseRequest(X -> {
             Platform.exit();
             System.exit(0);
@@ -84,7 +84,7 @@ public class MainWindow extends Application {
             System.err.println("URL Error: \n" + malformedURLException.getMessage());
             genericError();
         }
-        catch(NetworkErrorException networkError) {
+        catch(IOException networkError) {
             System.err.println(networkError.getMessage());
             ErrorWindow networkErrorAlert = new ErrorWindow("A network error has occurred");
             networkErrorAlert.displayError();
