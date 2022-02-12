@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -21,7 +22,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class MainWindow extends Application {
-
     private final TextField textField = new TextField();
     private final Button searchButton = new Button("Search");
     private final Label instruction = new Label("Enter the name of Wikipedia Page");
@@ -31,15 +31,17 @@ public class MainWindow extends Application {
 
     private final Executor executor = Executors.newSingleThreadExecutor();
 
-
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setScene(new Scene(createUI()));
-        primaryStage.setTitle("Wikipedia Revision Getter");
-        primaryStage.getIcons().add(new Image("Wikipedia Icon.jpg"));
+        setUpWindowBasics(primaryStage);
         setSizes(primaryStage);
         primaryStage.show();
+    }
 
+    private void setUpWindowBasics(Stage primaryStage) {
+        primaryStage.setScene(new Scene(createMainWindow()));
+        primaryStage.setTitle("Wikipedia Revision Getter");
+        primaryStage.getIcons().add(new Image("Wikipedia Icon.jpg"));
         primaryStage.setOnCloseRequest(X -> {
             Platform.exit();
             System.exit(0);
@@ -51,23 +53,29 @@ public class MainWindow extends Application {
         primaryStage.setHeight(600.0);
     }
 
-    private Parent createUI() {
-        setUpButton();
-
-        VBox vbox = new VBox();
-        vbox.getChildren().addAll(
+    private Parent createMainWindow() {
+        VBox mainWindow = new VBox();
+        mainWindow.getChildren().addAll(
                 instruction,
-                textField,
-                searchButton,
+                createSearchBar(),
                 revisions
         );
+        return mainWindow;
+    }
 
-        return vbox;
+    private Parent createSearchBar() {
+        setUpButton();
+        textField.setPrefWidth(425.0);
+        HBox searchBar = new HBox();
+        searchBar.getChildren().addAll(
+                textField,
+                searchButton
+        );
+
+        return searchBar;
     }
 
     private void setUpButton() {
-        searchButton.setAlignment(Pos.CENTER);
-
         searchButton.setOnAction((event) -> {
             textField.setDisable(true);
             searchButton.setDisable(true);
@@ -85,7 +93,6 @@ public class MainWindow extends Application {
         });
     }
 
-
     private void processWikiPage() {
         try {
             wikiRevisionPage = new WikiPageReader(nameOfWiki);
@@ -96,7 +103,7 @@ public class MainWindow extends Application {
             genericError();
         }
         catch(IOException networkError) {
-            System.err.println("Network error: " + networkError.getMessage());
+            System.err.println("Network error: \n" + networkError.getMessage());
             ErrorWindow networkErrorAlert = new ErrorWindow("A network error has occurred");
             networkErrorAlert.displayError();
             System.exit(0);

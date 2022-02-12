@@ -27,7 +27,7 @@ public class WikiPageParser {
             JSONArray redirect = JsonPath.read(wikiRevisionData, "$..to");
             return redirect.get(0).toString();
         }
-        catch(IndexOutOfBoundsException exception) {
+        catch(IndexOutOfBoundsException noRedirect) {
             return "";
         }
     }
