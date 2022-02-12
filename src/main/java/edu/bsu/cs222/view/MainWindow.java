@@ -71,6 +71,7 @@ public class MainWindow extends Application {
         searchButton.setOnAction((event) -> {
             textField.setDisable(true);
             searchButton.setDisable(true);
+
             executor.execute(() -> {
                 nameOfWiki = textField.getText();
                 processWikiPage();
@@ -95,7 +96,7 @@ public class MainWindow extends Application {
             genericError();
         }
         catch(IOException networkError) {
-            System.err.println(networkError.getMessage());
+            System.err.println("Network error: " + networkError.getMessage());
             ErrorWindow networkErrorAlert = new ErrorWindow("A network error has occurred");
             networkErrorAlert.displayError();
             System.exit(0);
