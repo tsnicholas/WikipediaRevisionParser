@@ -4,11 +4,11 @@ import edu.bsu.cs222.model.RevisionData;
 import edu.bsu.cs222.model.WikiPageReader;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
@@ -49,8 +49,8 @@ public class MainWindow extends Application {
     }
 
     private void setSizes(Stage primaryStage) {
-        primaryStage.setWidth(500.0);
-        primaryStage.setHeight(600.0);
+        primaryStage.setWidth(300.0);
+        primaryStage.setHeight(350.0);
     }
 
     private Parent createMainWindow() {
@@ -58,21 +58,27 @@ public class MainWindow extends Application {
         mainWindow.getChildren().addAll(
                 instruction,
                 createSearchBar(),
-                revisions
+                createResultDisplay()
         );
         return mainWindow;
     }
 
     private Parent createSearchBar() {
         setUpButton();
-        textField.setPrefWidth(425.0);
         HBox searchBar = new HBox();
         searchBar.getChildren().addAll(
                 textField,
                 searchButton
         );
-
         return searchBar;
+    }
+
+    private Parent createResultDisplay() {
+        ScrollPane resultDisplay = new ScrollPane();
+        VBox printedText = new VBox();
+        printedText.getChildren().add(revisions);
+        resultDisplay.setContent(printedText);
+        return resultDisplay;
     }
 
     private void setUpButton() {
