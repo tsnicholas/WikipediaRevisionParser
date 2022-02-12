@@ -31,7 +31,7 @@ public class WikiPageReader {
 
     public boolean pageExists() throws IOException {
         try {
-            return parser.parseMissing(connection.getInputStream());
+            return parser.parseForPageID(connection.getInputStream());
         }
         catch(IOException checkFailed) {
             throw new IOException();

@@ -23,10 +23,10 @@ public class WikiPageParser {
         return redirect.get(0).toString();
     }
 
-    public boolean parseMissing(InputStream wikiRevisionData) throws IOException {
+    public boolean parseForPageID(InputStream wikiRevisionData) throws IOException {
         JSONArray pages = JsonPath.read(wikiRevisionData, "$..pages");
         System.out.println(pages.get(0).toString());
-        return pages.get(0).toString().contains("missing");
+        return pages.get(0).toString().contains("pageid");
     }
 
     private String[] convertJsonArrayToStringArray(JSONArray jsonArray) {

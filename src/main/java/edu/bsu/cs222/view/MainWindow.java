@@ -28,7 +28,6 @@ public class MainWindow extends Application {
     private final Label instruction = new Label("Enter the name of Wikipedia Page");
     private final Text revisions = new Text("");
     private WikiPageReader wikiRevisionPage;
-    private RevisionData wikiRevisionData;
     private String nameOfWiki;
 
     private final Executor executor = Executors.newSingleThreadExecutor();
@@ -41,6 +40,10 @@ public class MainWindow extends Application {
         primaryStage.getIcons().add(new Image("Wikipedia Icon.jpg"));
         primaryStage.setWidth(500.0);
         primaryStage.show();
+        primaryStage.setOnCloseRequest(X -> {
+            Platform.exit();
+            System.exit(0);
+        });
     }
 
     private Parent createUI() {
@@ -100,12 +103,12 @@ public class MainWindow extends Application {
     }
 
     private String revisionData() throws IOException {
-        if(!wikiRevisionPage.pageExists()) {
-            return "This page doesn't exist";
+        if(wikiRevisionPage.pageExists()) {
+            RevisionData wikiRevisionData = wikiRevisionPage.retrieveRevisionData();
+            return wikiRevisionData.toString();
         }
 
-        RevisionData wikiRevisionData = wikiRevisionPage.retrieveRevisionData();
-        return wikiRevisionData.toString();
+        return "This page doesn't exist";
     }
 
     private void genericError() {

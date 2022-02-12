@@ -26,13 +26,13 @@ public class WikiPageParserTest {
     }
 
     @Test
-    public void testParseMissingTrueCase() throws IOException {
-        Assertions.assertTrue(parser.parseMissing(invalidStream));
+    public void testParseNonexistentPageTrueCase() throws IOException {
+        Assertions.assertTrue(parser.parseForPageID(testStream));
     }
 
     @Test
-    public void testParseMissingFalseCase() throws IOException {
-        Assertions.assertFalse(parser.parseMissing(testStream));
+    public void testParseNonexistentPageFalseCase() throws IOException {
+        Assertions.assertFalse(parser.parseForPageID(invalidStream));
     }
 
     @Test
