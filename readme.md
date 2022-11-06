@@ -9,3 +9,5 @@ below the search button. If the page doesn't exist, the user will
 be informed via the same way. If there's a network connection error,
 the user will be alerted with a pop-up window. Same goes with other errors
 that might occur.
+<br><br>
+Note: Commits under the name "Pirate" was committed by Tim Nicholas.
